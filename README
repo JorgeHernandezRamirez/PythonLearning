@@ -1,0 +1,30 @@
+1. Instalar python3 desde python.com
+
+2. Pip3 se encuentra instalado en /Library/Frameworks/Python.framework/Versions/3.6/bin/pip3
+which pip3
+
+3. Los paquetes se instalan en /Library/Frameworks/Python.framework/Versions/3.6/lib/python3.6/site-packages
+
+4. Para craer un entorno virtual hacer
+$ virtualenv myproject o virtualenv --system-site-packages myproject (para utilizar los paquetes del sistema)
+$ source bin/activate
+
+5. Para desactivarlo
+desactivate
+
+6. Para ver el entorno virtual activo
+echo $VIRTUAL_ENV 
+
+7. Los paquetes activos actuales están en (Instalar como pip install bar)
+[PATH_VIRUTAL]/lib/python3.6/site-packages/)
+
+/Library/Frameworks/Python.framework/Versions/3.6/lib/python3.6/site-packages
+/Library/Frameworks/Python.framework/Versions/3.6/lib/python3.6/site-packages
+/Library/Frameworks/Python.framework/Versions/3.6/lib/python3.6/site-packages
+
+----------
+
+PyCharm
+
+Project Interpreter -> Add local /bin/python3
+Associate this virtual environment with current project
