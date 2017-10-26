@@ -19,6 +19,17 @@ class CollectionsTest(unittest.TestCase):
         midictionario[1].append(4)
         self.assertEqual([1, 2, 3, 4], midictionario.get(1))
 
+    def test_debeAccederALosValoresDelDiccionario(self):
+        diccionarioPersona = {"id": "1", "nombre": "Jorge"}
+        self.assertEqual("Jorge", diccionarioPersona["nombre"])
+        self.assertEqual("Jorge", diccionarioPersona.get("nombre"))
+        self.assertEqual(None, diccionarioPersona.get("apellidos"))
+        self.assertEqual("Hernández", diccionarioPersona.get("apellidos", "Hernández"))
+        diccionarioPersona["apellidos"] = "Hernández"
+        self.assertEqual("Hernández", diccionarioPersona.get("apellidos"))
+        diccionarioPersona.setdefault("calle", "María Tubau")
+        self.assertEqual("María Tubau", diccionarioPersona.get("calle"))
+
     def test_debeLanzarExcepcionSiAccedoConDosVariablesAlDiccionario(self):
         midiccionario = {}
         midiccionario["key1"] = {}

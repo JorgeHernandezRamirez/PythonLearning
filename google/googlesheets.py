@@ -1,7 +1,10 @@
+#https://developers.google.com/sheets/api/reference/rest
+#https://developers.google.com/sheets/api/quickstart/python
 from __future__ import print_function
-import httplib2
+
 import os
 
+import httplib2
 from apiclient import discovery
 from oauth2client import client
 from oauth2client import tools
@@ -93,6 +96,81 @@ def main():
     }
     service.spreadsheets().values().update(
         spreadsheetId=spreadsheetId, valueInputOption="RAW", range="A4:C4", body=body).execute()
+
+    #Añadir valores
+    values = [
+        [
+            "ValorAñadido1", "ValorAñadido2", "ValorAñadido3"
+        ]
+    ]
+    body = {
+        'values': values
+    }
+    result = service.spreadsheets().values().append(spreadsheetId=spreadsheetId, range="Sheet1!A4:C4",
+        valueInputOption="RAW", body=body).execute()
+
+    #Obtener todos los sheets
+    sheet_metadata = service.spreadsheets().get(spreadsheetId=spreadsheetId).execute()
+    for sheet in sheet_metadata.get('sheets'):
+        print(sheet.get("properties").get("title"));
+        print(sheet.get("properties").get("sheetId"));
+
+    spreadsheet_body = {"properties":{"title":"My new Sheet 1"},"sheets":[{"properties":{"sheetId":0,"title":"Mi Sheet1","index":0,"sheetType":"GRID","gridProperties":{"rowCount":1000,"columnCount":26}}},{"properties":{"sheetId":1,"title":"Mi Sheet2","index":2,"sheetType":"GRID","gridProperties":{"rowCount":1000,"columnCount":26}}}]}
+    request = service.spreadsheets().create(body=spreadsheet_body)
+    response = request.execute()
+
+    requests = []
+    requests.append({
+        "updateCells": {
+            "rows": {
+                "values": [
+                    {
+                        "pivotTable": {
+                            "source": {
+                                "sheetId": 0,
+                                "startRowIndex": 0,
+                                "startColumnIndex": 0,
+                                "endRowIndex": 10,
+                                "endColumnIndex": 3
+                            },
+                            "rows": [
+                                {
+                                    "sourceColumnOffset": 0,
+                                    "showTotals": True,
+                                    "sortOrder": "ASCENDING",
+                                },
+                            ],
+                            "columns": [
+
+                            ],
+                            "values": [
+                                {
+                                    "summarizeFunction": "COUNTA",
+                                    "sourceColumnOffset": 1
+                                }
+                            ],
+                            "valueLayout": "HORIZONTAL"
+                        }
+                    }
+                ]
+            },
+            "start": {
+                "sheetId": "1433414668",
+                "rowIndex": 0,
+                "columnIndex": 0
+            },
+            "fields": "pivotTable"
+        }
+    })
+
+    body = {
+        'requests': requests
+    }
+    result = service.spreadsheets().batchUpdate(spreadsheetId=spreadsheetId,
+                                                body=body).execute()
+
+    # TODO: Change code below to process the `response` dict:
+    print("Hoja de cálculo creada ", response.get('spreadsheetId'))
 
     print("End")
 
