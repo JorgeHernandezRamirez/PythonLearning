@@ -19,12 +19,15 @@ class GoogleSheetsApi(unittest.TestCase):
 
     def test_shouldSetAndGetValuesFromNewGoogleSheetsDriver(self):
         v4GoogleSheetsDriver = V4GoogleSheetsDriver(V4GoogleSheetsDriver.getCredentials())
-        idSheet = v4GoogleSheetsDriver.createSheet("Test sheet")
+        idSheet = v4GoogleSheetsDriver.createSpreedSheet("Test sheet")
         newV4GoogleSheetsDriver = V4GoogleSheetsDriver(V4GoogleSheetsDriver.getCredentials(), idSheet)
         newV4GoogleSheetsDriver.setRange("Sheet1!A1:C1", [["Nombre1", "Apellidos1", "Edad1"]])
         self.assertEqual([["Nombre1", "Apellidos1", "Edad1"]], newV4GoogleSheetsDriver.getRange("Sheet1!A1:C1"))
         self.assertEqual(1, len(newV4GoogleSheetsDriver.getSheets()))
         self.assertEqual("Sheet1", newV4GoogleSheetsDriver.getSheets()[0].get("properties").get("title"))
+
+    def test_shouldCreateAndDeleteSheetFromNewGoogleSheets(self):
+        self._v4GoogleSheetsDriver.createSheet("Mi Nueva Hoja")
 
 if __name__ == "__main__":
     unittest.main()

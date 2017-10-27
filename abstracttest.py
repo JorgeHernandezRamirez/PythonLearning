@@ -1,6 +1,6 @@
+import logging
 import unittest
 from abc import ABCMeta, abstractmethod
-import logging
 
 logging.basicConfig( level=logging.DEBUG, format='[%(levelname)s] - %(threadName)-10s : %(message)s')
 

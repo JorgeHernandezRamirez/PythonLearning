@@ -7,7 +7,7 @@ class AbstractGoogleSheetsDrive(metaclass=ABCMeta):
         self._credentials = credentials
 
     @abstractmethod
-    def createSheet(self, docname):
+    def createSpreedSheet(self, docname):
         pass
 
     @abstractmethod

@@ -32,7 +32,7 @@ class V4GoogleSheetsDriver(AbstractGoogleSheetsDrive):
         http = credentials.authorize(httplib2.Http())
         return discovery.build('sheets', 'v4', http=http, discoveryServiceUrl=(self._DISCOVERYURL))
 
-    def createSheet(self, docname):
+    def createSpreedSheet(self, docname):
         spreadsheet_body = {"properties": {"title": docname}}
         return self._serviceSheetApi.spreadsheets().create(body=spreadsheet_body).execute().get('spreadsheetId')
 
@@ -47,6 +47,12 @@ class V4GoogleSheetsDriver(AbstractGoogleSheetsDrive):
 
     def getSheets(self):
         return self._serviceSheetApi.spreadsheets().get(spreadsheetId=self._spreadsheetId).execute().get("sheets")
+
+    def createSheet(self, title):
+        self._serviceSheetApi.spreadsheets().batchUpdate(spreadsheetId=self._spreadsheetId, body=self._getCreateSheetBody(title)).execute()
+
+    def _getCreateSheetBody(self, title):
+        return {"requests":[{"addSheet":{"properties":{"title":title}}}]}
 
     @staticmethod
     def getCredentials():
