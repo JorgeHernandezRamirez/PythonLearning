@@ -21,3 +21,10 @@ class AbstractGoogleSheetsDrive(metaclass=ABCMeta):
     @abstractmethod
     def getSheets(self):
         pass
+
+    @abstractmethod
+    def createSheet(self, title):
+        pass
+
+    def deleteSheet(self, sheetId):
+        pass

@@ -19,15 +19,28 @@ class GoogleSheetsApi(unittest.TestCase):
 
     def test_shouldSetAndGetValuesFromNewGoogleSheetsDriver(self):
         v4GoogleSheetsDriver = V4GoogleSheetsDriver(V4GoogleSheetsDriver.getCredentials())
-        idSheet = v4GoogleSheetsDriver.createSpreedSheet("Test sheet")
-        newV4GoogleSheetsDriver = V4GoogleSheetsDriver(V4GoogleSheetsDriver.getCredentials(), idSheet)
+        spreadsheetId = v4GoogleSheetsDriver.createSpreedSheet("Test sheet")
+        newV4GoogleSheetsDriver = V4GoogleSheetsDriver(V4GoogleSheetsDriver.getCredentials(), spreadsheetId)
         newV4GoogleSheetsDriver.setRange("Sheet1!A1:C1", [["Nombre1", "Apellidos1", "Edad1"]])
         self.assertEqual([["Nombre1", "Apellidos1", "Edad1"]], newV4GoogleSheetsDriver.getRange("Sheet1!A1:C1"))
         self.assertEqual(1, len(newV4GoogleSheetsDriver.getSheets()))
         self.assertEqual("Sheet1", newV4GoogleSheetsDriver.getSheets()[0].get("properties").get("title"))
 
     def test_shouldCreateAndDeleteSheetFromNewGoogleSheets(self):
-        self._v4GoogleSheetsDriver.createSheet("Mi Nueva Hoja")
+        v4GoogleSheetsDriver = V4GoogleSheetsDriver(V4GoogleSheetsDriver.getCredentials())
+        spreadsheetId = v4GoogleSheetsDriver.createSpreedSheet("Mi Test Spreedsheets")
+        newV4GoogleSheetsDriver = V4GoogleSheetsDriver(V4GoogleSheetsDriver.getCredentials(), spreadsheetId)
+        newV4GoogleSheetsDriver.createSheet("Mi Nueva Hoja")
+        self.assertEqual(2, len(newV4GoogleSheetsDriver.getSheets()))
+        sheetId = self._getSheetIdFromSheetName(newV4GoogleSheetsDriver, "Mi Nueva Hoja")
+        newV4GoogleSheetsDriver.deleteSheet(sheetId)
+        self.assertEqual(1, len(newV4GoogleSheetsDriver.getSheets()))
+
+    def _getSheetIdFromSheetName(self, googleSheetsDriver, sheetName):
+        sheetListProperties = list(filter(lambda sheetProperties: sheetName == sheetProperties.get("properties").get("title"), googleSheetsDriver.getSheets()))
+        if len(sheetListProperties) == 1:
+            return sheetListProperties[0].get("properties").get("sheetId")
+        return None
 
 if __name__ == "__main__":
     unittest.main()

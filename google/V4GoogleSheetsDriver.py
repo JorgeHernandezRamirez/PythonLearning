@@ -54,6 +54,12 @@ class V4GoogleSheetsDriver(AbstractGoogleSheetsDrive):
     def _getCreateSheetBody(self, title):
         return {"requests":[{"addSheet":{"properties":{"title":title}}}]}
 
+    def deleteSheet(self, sheetId):
+        self._serviceSheetApi.spreadsheets().batchUpdate(spreadsheetId=self._spreadsheetId, body=self._getDeleteSheetBody(sheetId)).execute()
+
+    def _getDeleteSheetBody(self, sheetId):
+        return {"requests":[{"deleteSheet":{"sheetId": sheetId}}]}
+
     @staticmethod
     def getCredentials():
         home_dir = os.path.expanduser('~')
