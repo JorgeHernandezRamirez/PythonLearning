@@ -25,5 +25,10 @@ class InitializeTest(unittest.TestCase):
         self.assertEqual("1", instancia.id)
         self.assertEqual("Jorge", instancia.name)
 
+    def test_debeUtilizarElMetodoUpdateParaActualizarUnDict(self):
+        midictionario = {"a": 1, "b": 2}
+        midictionario.update({"a": 2})
+        self.assertEqual({"a": 2, "b": 2}, midictionario)
+
 if __name__ == "__main__":
     unittest.main()
