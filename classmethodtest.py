@@ -41,6 +41,9 @@ class ClassMethodTest(unittest.TestCase):
     def test_debeDevolverTrueCuandoLosTiposEInstanciasSonIguales(self):
         self.assertTrue(isinstance(ClassMethod(), ClassMethod))
         self.assertEqual(type(ClassMethod()), ClassMethod)
+        self.assertEqual(("str"), "str")
+        self.assertNotEqual(("str",), "str")
+        self.assertEqual(next(iter({"str"})), "str")
 
 if __name__ == "__main__":
     unittest.main()
