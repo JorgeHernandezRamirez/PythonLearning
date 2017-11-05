@@ -33,5 +33,14 @@ class ClassMethodTest(unittest.TestCase):
     def test_debeDevolverCorrectamenteElStr(self):
         self.assertEqual("value=1", MiClase(1).__str__())
 
+    def test_debeVerificarSiExistenLosMetodosEnLaClase(self):
+        instanceOfClassMethod = ClassMethod()
+        self.assertTrue(hasattr(instanceOfClassMethod, "classfoo"))
+        self.assertFalse(hasattr(instanceOfClassMethod, "classfoo1"))
+
+    def test_debeDevolverTrueCuandoLosTiposEInstanciasSonIguales(self):
+        self.assertTrue(isinstance(ClassMethod(), ClassMethod))
+        self.assertEqual(type(ClassMethod()), ClassMethod)
+
 if __name__ == "__main__":
     unittest.main()
