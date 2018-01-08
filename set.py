@@ -1,5 +1,8 @@
 import unittest
 
+from collections import Counter
+
+
 class SetTest(unittest.TestCase):
 
     def test_debeContener1ElementoLaLista(self):
@@ -32,6 +35,27 @@ class SetTest(unittest.TestCase):
         self.assertEqual([1, 2, 3], [1, 2, 3, 4][:3])
         self.assertEqual([1, 2, 3, 4], [1, 2, 3, 4][:4])
         self.assertEqual([1, 2, 3, 4], [1, 2, 3, 4][:5])
+
+    def test_prueba(self):
+        self.assertEqual(duplicate_count("abcde"), 0)
+        self.assertEqual(duplicate_count("abcdea"), 1)
+        self.assertEqual(duplicate_count("indivisibility"), 1)
+        self.assertEqual(duplicate_count("aabbcde"), 2)
+        self.assertEqual(duplicate_count("Indivisibilities"), 2)
+        self.assertEqual(duplicate_count("ABBA"), 2)
+
+    def test_prueba(self):
+        print(self.arithmetic_sequence_elements(1, 2, 5))
+
+    def arithmetic_sequence_elements(self, a, r, n):
+        return ", ".join(list(map(lambda x: str(a + r * x), range(n))))
+
+
+def duplicate_count(text):
+    characterlist = list(iter(text.lower()))
+    lista = {k: v for k, v in Counter(characterlist).items() if v > 1}
+    return len(lista)
+
 
 if __name__ == "__main__":
     unittest.main()
